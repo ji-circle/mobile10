@@ -14,12 +14,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FourthAppTheme {
-//                GamePage()
-                ResultPage()
+                GamePage()
+//                ResultPage()
             }
         }
     }
 }
-//words 등록 시 Project > src > main > res > values > string으로 접근
-//"(.*?)", <item>$1</item> 이거로 (.* 누른 상태로) string에서 string-array로 관리
 
