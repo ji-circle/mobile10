@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
@@ -51,6 +54,15 @@ fun GamePage(
         ) {
 
             GameLayout(
+                //3개 추가함
+                //  (it) 을 쓴 이유는?
+                //   onUserGuessDChanged이 String을 하나 입력받는...
+                //   밑의 onValueChange = onUserGuessChanged 부분에서
+                //     onValueChange에서 string이 하나 입력되어오기 때문에ㅅ
+                onUserGuessChanged = {gameViewModel.updateUserGuess(it)},
+                //guess 값을 viewModel에서 set했기 때문에...
+                userGuess = gameViewModel.userGuess,
+                onKeyboardDone = {},
                 currentScrambledWord = gameUiState.currentScrambledWord,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -79,6 +91,10 @@ fun GamePage(
 
 @Composable
 fun GameLayout(
+    //상태 변화 반영 위해... 3개 추가
+    onUserGuessChanged: (String) -> Unit,
+    userGuess: String,
+    onKeyboardDone: () -> Unit, //키보드 엔터를 눌렀을 때...
     currentScrambledWord: String,
     modifier: Modifier = Modifier
 ) {
@@ -114,8 +130,10 @@ fun GameLayout(
             )
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = "",
-                onValueChange = {},
+                //아래 value 값 변경함... viewmodel에서 guess 만든뒤에
+                value = userGuess,
+                //아래 값 변경함
+                onValueChange = onUserGuessChanged,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = colorScheme.surface,
                     unfocusedContainerColor = colorScheme.surface,
@@ -124,7 +142,15 @@ fun GameLayout(
                 ),
                 label = {
                     Text(text = "Enter your word")
-                }
+                },
+                //추가됨
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    //키보드가 내려가는 액션...
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = { onKeyboardDone() }
+                )
             )
         }
 

@@ -2,7 +2,9 @@ package com.example.fourthapp.ui
 
 import android.content.Context
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.fourthapp.R
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +22,10 @@ class GameViewModel : ViewModel() {
     private lateinit var currentWord: String
 
     private var usedWords: MutableSet<String> = mutableSetOf()
+
+    //이부분 추가... setter는 private하게 함
+    var userGuess by mutableStateOf("")
+        private set
 
     fun loadStringSet(context: Context) {
         val stringArray = context.resources.getStringArray(R.array.game_strings)
@@ -45,6 +51,11 @@ class GameViewModel : ViewModel() {
             usedWords.add(currentWord)
             return shuffleCurrentWord(currentWord)
         }
+    }
+
+    //이부분 추가
+    fun updateUserGuess(guessedWord: String) {
+        userGuess = guessedWord
     }
 
     fun resetGame() {
