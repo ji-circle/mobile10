@@ -16,7 +16,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FourthAppTheme {
-                //seventhViewModel... 뷰모델 reset
                 val gameViewModel = viewModel<GameViewModel>()
                 gameViewModel.loadStringSet(this)
                 gameViewModel.resetGame()

@@ -31,12 +31,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GamePage(
-    //게임 뷰모델을 파라미터로 받는다
     gameViewModel: GameViewModel = viewModel()
 ) {
-    //게임 스크린에 uiState를 불러온다
-    //  uiState 자체는 원래 State 형이 아니었는데, collectAsState()를 통해 state 형태로 변환
-    //  gameUiState는 State 형태가 됨...?(?)
     val gameUiState by gameViewModel.uiState.collectAsState()
 
     Scaffold(
@@ -54,7 +50,6 @@ fun GamePage(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            //Card 부분 밑으로 뺌
             GameLayout(
                 currentScrambledWord = gameUiState.currentScrambledWord,
                 modifier = Modifier.fillMaxWidth()
@@ -82,7 +77,6 @@ fun GamePage(
     }
 }
 
-//가독성 위해 위의 Card 부분을 아래로 뺐다
 @Composable
 fun GameLayout(
     currentScrambledWord: String,
@@ -111,7 +105,6 @@ fun GameLayout(
             )
 
             Text(
-                //여기에 스크램블된 단어 넣는다
                 text = currentScrambledWord,
                 style = typography.displayMedium
             )
