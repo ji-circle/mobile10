@@ -78,7 +78,7 @@ fun GamePage(
                 }
                 OutlinedButton(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {}
+                    onClick = { gameViewModel.skipWord() }
                 ) {
                     Text(text = "Skip")
                 }

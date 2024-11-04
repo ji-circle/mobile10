@@ -57,13 +57,29 @@ class GameViewModel : ViewModel() {
         userGuess = guessedWord
     }
 
-    private fun updateGameState(updatedScore: Int){
-        _uiState.update { currenState ->
-            currenState.copy(
-                isGuessedWordWrong = false,
-                currentScrambledWord = pickRandomWordAndShuffle(),
-                score = updatedScore
-            )
+    private fun updateGameState(updatedScore: Int) {
+        //추가
+        if (usedWords.size == 10) {
+            //uistate의 isgameover를 업데이트함
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isGuessedWordWrong = false,
+                    score = updatedScore,
+                    //이렇게 되면, 더 이상 스킵이 안 됨
+                    isGameOver = true
+                )
+            }
+        } else {
+
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isGuessedWordWrong = false,
+                    currentScrambledWord = pickRandomWordAndShuffle(),
+                    score = updatedScore,
+                    //아래 추가.. inc() 는 1 추가임
+                    currentWordCount = currentState.currentWordCount.inc()
+                )
+            }
         }
     }
 
@@ -78,6 +94,14 @@ class GameViewModel : ViewModel() {
                 )
             }
         }
+        updateUserGuess("")
+    }
+
+    //추가
+    fun skipWord() {
+        // score는 그냥 그대로 넣는다. 추가없이
+        updateGameState(_uiState.value.score)
+        //아무것도 guess하지 않은거로...
         updateUserGuess("")
     }
 
