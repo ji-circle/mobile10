@@ -57,23 +57,17 @@ class GameViewModel : ViewModel() {
         userGuess = guessedWord
     }
 
-    //이부분 추가
     fun checkUserGuess() {
-        //ignoreCase 사용! ignoreCase = true 로 해두면
         if (userGuess.equals(currentWord, ignoreCase = true)) {
 
         } else {
-            //update 는 stateflow에서 사용할 수 있는 함수임
-            //_uistate는 gameUiState임.
-            //  람다함수 내부의 값으로 업데이트를 시킨다
             _uiState.update { currentState ->
                 currentState.copy(
                     isGuessedWordWrong = true
                 )
             }
         }
-        //틀렸을 때 입력된 것들을 지워주기
-        updateUserGuess("")
+g        updateUserGuess("")
     }
 
     fun resetGame() {

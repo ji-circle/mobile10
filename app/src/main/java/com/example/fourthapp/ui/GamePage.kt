@@ -57,7 +57,6 @@ fun GamePage(
 
             GameLayout(
                 onUserGuessChanged = { gameViewModel.updateUserGuess(it) },
-                //아래 추가
                 isGuessWrong = gameUiState.isGuessedWordWrong,
                 userGuess = gameViewModel.userGuess,
                 onKeyboardDone = { gameViewModel.checkUserGuess() },
@@ -90,7 +89,6 @@ fun GamePage(
 @Composable
 fun GameLayout(
     onUserGuessChanged: (String) -> Unit,
-    //아래 추가
     isGuessWrong: Boolean,
     userGuess: String,
     onKeyboardDone: () -> Unit,
@@ -135,12 +133,10 @@ fun GameLayout(
                     focusedContainerColor = colorScheme.surface,
                     unfocusedContainerColor = colorScheme.surface,
                     disabledContainerColor = colorScheme.surface,
-                    //아래 추가... 텍스트필드 내의 색은 흰색으로 유지되게
                     errorContainerColor = colorScheme.surface
 
                 ),
                 label = {
-                    //아래 수정...
                     if (isGuessWrong){
                         Text(text = stringResource(id= R.string.wrong_guess))
                     }else{
@@ -148,7 +144,6 @@ fun GameLayout(
                     }
 
                 },
-                //틀렸을 때 텍스트필드의 테두리 색, 라벨을 바꾸는...? 틀렸으니까 다시해라...
                 isError = isGuessWrong,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
