@@ -65,7 +65,6 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 Text(
                                     modifier = Modifier
-                                        //카드 안의 텍스트의 백그라운드 모양을 바꾸기. 여기 뒤에는 , 안함
                                         .clip(shapes.medium)
                                         .background(color = colorScheme.surfaceTint)
                                         .padding(horizontal = 10.dp, vertical = 4.dp)
