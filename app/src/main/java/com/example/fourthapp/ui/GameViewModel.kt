@@ -67,7 +67,7 @@ class GameViewModel : ViewModel() {
                 )
             }
         }
-g        updateUserGuess("")
+        updateUserGuess("")
     }
 
     fun resetGame() {
