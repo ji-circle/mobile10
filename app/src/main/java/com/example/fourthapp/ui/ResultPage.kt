@@ -30,10 +30,8 @@ import com.example.fourthapp.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultPage(
-    //아래 추가
     gameViewModel: GameViewModel = viewModel()
 ) {
-    //아래 추가
     val gameUiState by gameViewModel.uiState.collectAsState()
 
     Scaffold(
@@ -74,12 +72,10 @@ fun ResultPage(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        //아래 수정
                         text = stringResource(id = R.string.your_score_is),
                         style = typography.titleLarge
                     )
                     Text(
-                        //아래 수정
                         text = gameUiState.score.toString(),
                         style = typography.displayMedium
                     )

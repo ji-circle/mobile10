@@ -58,7 +58,6 @@ fun GamePage(
             GameLayout(
                 onUserGuessChanged = { gameViewModel.updateUserGuess(it) },
                 isGuessWrong = gameUiState.isGuessedWordWrong,
-                //아래 코드 추가
                 wordCount = gameUiState.currentWordCount,
                 userGuess = gameViewModel.userGuess,
                 onKeyboardDone = { gameViewModel.checkUserGuess() },
@@ -115,9 +114,6 @@ fun GameLayout(
                     .background(color = colorScheme.surfaceTint)
                     .padding(horizontal = 10.dp, vertical = 4.dp)
                     .align(alignment = Alignment.End),
-                //아래 수정 위해 GameUiState 수정...
-                //string에 <string name="current_score">%d/10</string> 추가
-                //  , wordCount 추가하기
                 text = stringResource(id = R.string.current_score, wordCount),
                 style = typography.titleMedium,
                 color = colorScheme.onPrimary
