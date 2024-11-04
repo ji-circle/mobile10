@@ -23,7 +23,6 @@ class MainActivity : ComponentActivity() {
                 gameViewModel.loadStringSet(this)
                 gameViewModel.resetGame()
 
-                //아래 추가
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "game") {
                     composable(route = "game") {

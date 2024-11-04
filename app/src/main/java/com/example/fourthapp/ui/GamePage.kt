@@ -39,7 +39,6 @@ import com.example.fourthapp.R
 @Composable
 fun GamePage(
     gameViewModel: GameViewModel = viewModel(),
-    //아래 추가
     checkScore: () -> Unit
 ) {
     val gameUiState by gameViewModel.uiState.collectAsState()
@@ -88,9 +87,6 @@ fun GamePage(
 
             }
         }
-        //finalDialog에서 체크를 누르는 순간 넘어가는 것을
-        //  여기서 구현하는 게 아니고, mainActivity에서 구현함! (navcontroller 부분)
-
         if (gameUiState.isGameOver){
             FinalDialog(checkScore = checkScore)
 
@@ -170,7 +166,6 @@ fun GameLayout(
 
 }
 
-//아래 추가
 @Composable
 private fun FinalDialog(
     checkScore: () -> Unit,
