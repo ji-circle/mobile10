@@ -2,6 +2,10 @@
     <string name="app_name">FourthApp</string>
     <string name="enter_your_word">Enter your word</string>
     <string name="wrong_guess">Wrong Guess!</string>
+    <string name="your_score_is">Your score is ...</string>
+    <string name="game_result">Game Result</string>
+
+    <string name="current_score">%d/10</string>
     <string-array name="game_strings">
         <item>animal</item>
         <item>auto</item>

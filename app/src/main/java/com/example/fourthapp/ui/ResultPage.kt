@@ -18,18 +18,29 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fourthapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResultPage() {
+fun ResultPage(
+    //아래 추가
+    gameViewModel: GameViewModel = viewModel()
+) {
+    //아래 추가
+    val gameUiState by gameViewModel.uiState.collectAsState()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text(text = "Game Result") },
+                title = { Text(text = stringResource(id = R.string.game_result)) },
                 navigationIcon = {
                     IconButton(onClick = {}) {
                         Icon(
@@ -63,11 +74,13 @@ fun ResultPage() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Your Score is...",
+                        //아래 수정
+                        text = stringResource(id = R.string.your_score_is),
                         style = typography.titleLarge
                     )
                     Text(
-                        text = "100",
+                        //아래 수정
+                        text = gameUiState.score.toString(),
                         style = typography.displayMedium
                     )
                 }
