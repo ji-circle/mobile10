@@ -31,7 +31,6 @@ import com.example.fourthapp.R
 @Composable
 fun ResultPage(
     gameViewModel: GameViewModel = viewModel(),
-    //여기 추가
     returnToGame: () -> Unit,
 ) {
     val gameUiState by gameViewModel.uiState.collectAsState()
@@ -42,7 +41,6 @@ fun ResultPage(
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.game_result)) },
                 navigationIcon = {
-                    //아래 수정
                     IconButton(onClick = returnToGame) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -91,9 +89,7 @@ fun ResultPage(
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    //아래 수정
                     onClick = {
-                        //아래 추가!
                         gameViewModel.resetGame()
                         returnToGame()
                     }
