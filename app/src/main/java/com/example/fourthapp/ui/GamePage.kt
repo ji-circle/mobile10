@@ -27,9 +27,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fourthapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,9 +56,11 @@ fun GamePage(
         ) {
 
             GameLayout(
-                onUserGuessChanged = {gameViewModel.updateUserGuess(it)},
+                onUserGuessChanged = { gameViewModel.updateUserGuess(it) },
+                //아래 추가
+                isGuessWrong = gameUiState.isGuessedWordWrong,
                 userGuess = gameViewModel.userGuess,
-                onKeyboardDone = {},
+                onKeyboardDone = { gameViewModel.checkUserGuess() },
                 currentScrambledWord = gameUiState.currentScrambledWord,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -67,7 +71,7 @@ fun GamePage(
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {}
+                    onClick = { gameViewModel.checkUserGuess() }
                 ) {
                     Text(text = "Submit")
                 }
@@ -86,6 +90,8 @@ fun GamePage(
 @Composable
 fun GameLayout(
     onUserGuessChanged: (String) -> Unit,
+    //아래 추가
+    isGuessWrong: Boolean,
     userGuess: String,
     onKeyboardDone: () -> Unit,
     currentScrambledWord: String,
@@ -128,12 +134,22 @@ fun GameLayout(
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = colorScheme.surface,
                     unfocusedContainerColor = colorScheme.surface,
-                    disabledContainerColor = colorScheme.surface
+                    disabledContainerColor = colorScheme.surface,
+                    //아래 추가... 텍스트필드 내의 색은 흰색으로 유지되게
+                    errorContainerColor = colorScheme.surface
 
                 ),
                 label = {
-                    Text(text = "Enter your word")
+                    //아래 수정...
+                    if (isGuessWrong){
+                        Text(text = stringResource(id= R.string.wrong_guess))
+                    }else{
+                        Text(text = stringResource(id= R.string.enter_your_word))
+                    }
+
                 },
+                //틀렸을 때 텍스트필드의 테두리 색, 라벨을 바꾸는...? 틀렸으니까 다시해라...
+                isError = isGuessWrong,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
                 ),

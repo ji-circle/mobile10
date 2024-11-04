@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">FourthApp</string>
+    <string name="enter_your_word">Enter your word</string>
+    <string name="wrong_guess">Wrong Guess!</string>
     <string-array name="game_strings">
         <item>animal</item>
         <item>auto</item>
