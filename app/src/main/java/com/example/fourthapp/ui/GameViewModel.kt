@@ -23,7 +23,6 @@ class GameViewModel : ViewModel() {
 
     private var usedWords: MutableSet<String> = mutableSetOf()
 
-    //이부분 추가... setter는 private하게 함
     var userGuess by mutableStateOf("")
         private set
 
@@ -53,7 +52,6 @@ class GameViewModel : ViewModel() {
         }
     }
 
-    //이부분 추가
     fun updateUserGuess(guessedWord: String) {
         userGuess = guessedWord
     }
