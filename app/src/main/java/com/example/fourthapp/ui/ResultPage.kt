@@ -30,7 +30,9 @@ import com.example.fourthapp.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultPage(
-    gameViewModel: GameViewModel = viewModel()
+    gameViewModel: GameViewModel = viewModel(),
+    //여기 추가
+    returnToGame: () -> Unit,
 ) {
     val gameUiState by gameViewModel.uiState.collectAsState()
 
@@ -40,7 +42,8 @@ fun ResultPage(
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.game_result)) },
                 navigationIcon = {
-                    IconButton(onClick = {}) {
+                    //아래 수정
+                    IconButton(onClick = returnToGame) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "back"
@@ -88,7 +91,12 @@ fun ResultPage(
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {}
+                    //아래 수정
+                    onClick = {
+                        //아래 추가!
+                        gameViewModel.resetGame()
+                        returnToGame()
+                    }
                 ) {
                     Text(text = "Return to Game")
                 }

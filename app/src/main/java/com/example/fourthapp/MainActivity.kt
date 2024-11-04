@@ -32,7 +32,11 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(route = "result") {
-                        ResultPage(gameViewModel = gameViewModel)
+                        ResultPage(
+                            gameViewModel = gameViewModel,
+                            //아래 추가
+                            returnToGame = { navController.navigateUp() }
+                        )
                     }
                 }
             }
