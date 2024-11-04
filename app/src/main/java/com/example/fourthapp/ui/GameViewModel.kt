@@ -57,9 +57,22 @@ class GameViewModel : ViewModel() {
         userGuess = guessedWord
     }
 
+    //아래 추가
+    private fun updateGameState(updatedScore: Int){
+        _uiState.update { currenState ->
+            currenState.copy(
+                isGuessedWordWrong = false,
+                currentScrambledWord = pickRandomWordAndShuffle(),
+                score = updatedScore
+            )
+        }
+    }
+
     fun checkUserGuess() {
         if (userGuess.equals(currentWord, ignoreCase = true)) {
-
+            //아래 수정.. 맞을때마다 10점씩 증가
+            val updatedScore = _uiState.value.score.plus(10)
+            updateGameState(updatedScore)
         } else {
             _uiState.update { currentState ->
                 currentState.copy(
