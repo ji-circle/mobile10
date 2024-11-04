@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -19,6 +20,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -36,7 +38,9 @@ import com.example.fourthapp.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GamePage(
-    gameViewModel: GameViewModel = viewModel()
+    gameViewModel: GameViewModel = viewModel(),
+    //아래 추가
+    checkScore: () -> Unit
 ) {
     val gameUiState by gameViewModel.uiState.collectAsState()
 
@@ -83,6 +87,13 @@ fun GamePage(
                 }
 
             }
+        }
+        //finalDialog에서 체크를 누르는 순간 넘어가는 것을
+        //  여기서 구현하는 게 아니고, mainActivity에서 구현함! (navcontroller 부분)
+
+        if (gameUiState.isGameOver){
+            FinalDialog(checkScore = checkScore)
+
         }
     }
 }
@@ -139,10 +150,10 @@ fun GameLayout(
 
                 ),
                 label = {
-                    if (isGuessWrong){
-                        Text(text = stringResource(id= R.string.wrong_guess))
-                    }else{
-                        Text(text = stringResource(id= R.string.enter_your_word))
+                    if (isGuessWrong) {
+                        Text(text = stringResource(id = R.string.wrong_guess))
+                    } else {
+                        Text(text = stringResource(id = R.string.enter_your_word))
                     }
 
                 },
@@ -155,7 +166,25 @@ fun GameLayout(
                 )
             )
         }
-
     }
 
+}
+
+//아래 추가
+@Composable
+private fun FinalDialog(
+    checkScore: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    AlertDialog(
+        onDismissRequest = {},
+        title = { Text(text = stringResource(id = R.string.alert_title)) },
+        text = { Text(text = stringResource(id = R.string.alert_content)) },
+        modifier = modifier,
+        confirmButton = {
+            TextButton(onClick = checkScore) {
+                Text(text = stringResource(id = R.string.check_score))
+            }
+        }
+    )
 }

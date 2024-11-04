@@ -6,6 +6,11 @@
     <string name="game_result">Game Result</string>
 
     <string name="current_score">%d/10</string>
+
+    <string name="check_score">Check!</string>
+    <string name="alert_title">Game Over!</string>
+    <string name="alert_content">You can check your score now.</string>
+
     <string-array name="game_strings">
         <item>animal</item>
         <item>auto</item>
