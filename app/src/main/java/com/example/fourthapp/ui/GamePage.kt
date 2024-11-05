@@ -47,7 +47,7 @@ fun GamePage(
     val gameUiState by gameViewModel.uiState.collectAsState()
 
     //아래 추가
-    val openHighlightDialog = remember { mutableStateOf(true) }
+    val openHighlightDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
