@@ -27,6 +27,17 @@ class GameViewModel : ViewModel() {
     var userGuess by mutableStateOf("")
         private set
 
+    //여기 추가
+    private var _highlightWords: MutableSet<String> = mutableSetOf()
+    val highlightWords: Set<String> = _highlightWords
+
+    private var _highlightWithShuffled: MutableSet<String> = mutableSetOf()
+    val highlightWithShuffled: Set<String> = _highlightWithShuffled
+
+    private var _highlightShuffled: MutableSet<String> = mutableSetOf()
+    val highlightShuffled: Set<String> = _highlightShuffled
+
+
     fun loadStringSet(context: Context) {
         val stringArray = context.resources.getStringArray(R.array.game_strings)
         _allWords.value = stringArray.toSet()
@@ -71,22 +82,64 @@ class GameViewModel : ViewModel() {
             _uiState.update { currentState ->
                 currentState.copy(
                     isGuessedWordWrong = false,
+                    isMoreThan7 = false,
                     currentScrambledWord = pickRandomWordAndShuffle(),
                     score = updatedScore,
                     currentWordCount = currentState.currentWordCount.inc()
                 )
             }
+
         }
+    }
+
+    fun addHighlightWords() {
+        _highlightWithShuffled.add(uiState.value.currentScrambledWord + " to " + currentWord)
+        _highlightWords.add(currentWord)
+        _highlightShuffled.add(uiState.value.currentScrambledWord)
+
+        val updatedScore = _uiState.value.score.plus(10)
+        _uiState.update { currentState ->
+            currentState.copy(
+                highlightNum = currentState.highlightNum.inc(),
+//                currentScrambledWord = pickRandomWordAndShuffle(),
+//                currentWordCount = currentState.currentWordCount.inc()
+            )
+
+        }
+        updateGameState(updatedScore)
+
+
     }
 
     fun checkUserGuess() {
         if (userGuess.equals(currentWord, ignoreCase = true)) {
             val updatedScore = _uiState.value.score.plus(10)
+            //여기 추가?
+            if (checkOver7(currentWord)) {
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        isMoreThan7 = true,
+                        isGuessedWordWrong = false,
+                        isHighlightExists = true,
+//                        score = updatedScore
+                    )
+                }
+
+//                if()
+
+            } else {
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        isMoreThan7 = false, //
+                    )
+                }
+            }
             updateGameState(updatedScore)
+
         } else {
             _uiState.update { currentState ->
                 currentState.copy(
-                    isGuessedWordWrong = true
+                    isGuessedWordWrong = true,
                 )
             }
         }
@@ -103,4 +156,12 @@ class GameViewModel : ViewModel() {
         _uiState.value = GameUiState(currentScrambledWord = pickRandomWordAndShuffle())
     }
 
+    //여기 추가
+    private fun checkOver7(currentWord: String): Boolean {
+        if (currentWord.length >= 3) {
+            return true
+        } else {
+            return false
+        }
+    }
 }

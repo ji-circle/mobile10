@@ -1,5 +1,6 @@
 package com.example.fourthapp.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,9 +42,12 @@ import com.example.fourthapp.R
 @Composable
 fun GamePage(
     gameViewModel: GameViewModel = viewModel(),
-    checkScore: () -> Unit
+    checkScore: () -> Unit,
 ) {
     val gameUiState by gameViewModel.uiState.collectAsState()
+
+    //아래 추가
+    val openHighlightDialog = remember { mutableStateOf(true) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -87,9 +93,32 @@ fun GamePage(
 
             }
         }
-        if (gameUiState.isGameOver){
+        if (gameUiState.isGameOver) {
             FinalDialog(checkScore = checkScore)
 
+        }
+
+        if (gameUiState.isMoreThan7) {
+
+            when {
+                openHighlightDialog.value -> {
+                    HighlightDialog(
+                        onDismissRequest = { openHighlightDialog.value = false },
+//                        onDismissRequest = { },
+                        onConfirmation = {
+                            openHighlightDialog.value = false
+
+
+                            gameViewModel.addHighlightWords()
+                            Log.d("언제되는거지?", "${gameViewModel.highlightWithShuffled}")
+                            Log.d("${gameViewModel.highlightWithShuffled}", "언제되는거지...")
+                        },
+                        dialogTitle = stringResource(id = R.string.highlight_title),
+                        dialogText = stringResource(id = R.string.highlight_content)
+
+                    )
+                }
+            }
         }
     }
 }
@@ -182,4 +211,32 @@ private fun FinalDialog(
             }
         }
     )
+}
+
+@Composable
+private fun HighlightDialog(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    dialogTitle: String,
+    dialogText: String,
+    modifier: Modifier = Modifier,
+) {
+    AlertDialog(
+        onDismissRequest = { onDismissRequest() },
+        title = { Text(text = dialogTitle) },
+        text = { Text(text = dialogText) },
+
+        modifier = modifier,
+        confirmButton = {
+            TextButton(onClick = { onConfirmation() }) {
+                Text(text = stringResource(id = R.string.highlight_confirm))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = { onDismissRequest() }) {
+                Text(text = stringResource(id = R.string.highlight_dismiss))
+            }
+        }
+    )
+
 }

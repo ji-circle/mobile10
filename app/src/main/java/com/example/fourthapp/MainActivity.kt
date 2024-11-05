@@ -43,3 +43,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+//TODO wordsData는 안쓰는건가???
+//TODO state에는 상태를 넣는데, viewmodel에 데이터를 넣는 거랑 뭐가 다른거지...? state에 score이 있는데??
+//TODO gameviewmodel에서... 질문

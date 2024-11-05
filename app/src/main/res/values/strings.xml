@@ -11,6 +11,14 @@
     <string name="alert_title">Game Over!</string>
     <string name="alert_content">You can check your score now.</string>
 
+    <string name="highlight_title">Wonderful!</string>
+    <string name="highlight_content">You just have solved a quite difficult problem!\nWould you register this word as your highlight?</string>
+    <string name="highlight_dismiss">Cancel</string>
+    <string name="highlight_confirm">Register!</string>
+
+
+    <string name="your_highlight_word_is">Your highlight word is ...</string>
+
     <string-array name="game_strings">
         <item>animal</item>
         <item>auto</item>

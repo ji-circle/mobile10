@@ -2,6 +2,8 @@ package com.example.fourthapp.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -80,24 +82,56 @@ fun ResultPage(
                         text = gameUiState.score.toString(),
                         style = typography.displayMedium
                     )
-                }
 
-            }
-            Column(
-                modifier = Modifier.padding(vertical = 32.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        gameViewModel.resetGame()
-                        returnToGame()
+                    //여기 추가
+                    if (gameUiState.isHighlightExists) {
+                        Text(
+                            text = stringResource(id = R.string.your_highlight_word_is),
+                            style = typography.titleLarge
+                        )
+
+                        val highlightIterator = gameViewModel.highlightWords.iterator()
+                        val shuffledIterator = gameViewModel.highlightShuffled.iterator()
+
+                        while (highlightIterator.hasNext() && shuffledIterator.hasNext()) {
+                            Text(
+                                text = shuffledIterator.next(),
+                                style = typography.displayMedium
+                            )
+                            Text(
+                                text = " to ",
+                                style = typography.displaySmall
+                            )
+                            Text(
+                                text = highlightIterator.next(),
+                                style = typography.displayMedium
+                            )
+                            Text(
+                                text = "\n"
+                            )
+                        }
+
+
                     }
-                ) {
-                    Text(text = "Return to Game")
                 }
 
             }
+
+        }
+        Column(
+            modifier = Modifier.padding(vertical = 32.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    gameViewModel.resetGame()
+                    returnToGame()
+                }
+            ) {
+                Text(text = "Return to Game")
+            }
+
         }
     }
 }
