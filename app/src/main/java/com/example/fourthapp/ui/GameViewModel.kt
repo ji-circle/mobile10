@@ -1,6 +1,7 @@
 package com.example.fourthapp.ui
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +38,9 @@ class GameViewModel : ViewModel() {
     private var _highlightShuffled: MutableSet<String> = mutableSetOf()
     val highlightShuffled: Set<String> = _highlightShuffled
 
+    private lateinit var prevWord: String
+    private lateinit var prevShuffle: String
+
 
     fun loadStringSet(context: Context) {
         val stringArray = context.resources.getStringArray(R.array.game_strings)
@@ -60,6 +64,8 @@ class GameViewModel : ViewModel() {
             return pickRandomWordAndShuffle()
         } else {
             usedWords.add(currentWord)
+            Log.d("셔플전", currentWord)
+
             return shuffleCurrentWord(currentWord)
         }
     }
@@ -93,29 +99,37 @@ class GameViewModel : ViewModel() {
     }
 
     fun addHighlightWords() {
-        _highlightWithShuffled.add(uiState.value.currentScrambledWord + " to " + currentWord)
-        _highlightWords.add(currentWord)
-        _highlightShuffled.add(uiState.value.currentScrambledWord)
+        _highlightWithShuffled.add("$prevShuffle to $prevWord")
+        _highlightWords.add(prevWord)
+        _highlightShuffled.add(prevShuffle)
 
         val updatedScore = _uiState.value.score.plus(10)
         _uiState.update { currentState ->
             currentState.copy(
                 highlightNum = currentState.highlightNum.inc(),
-//                currentScrambledWord = pickRandomWordAndShuffle(),
-//                currentWordCount = currentState.currentWordCount.inc()
             )
-
         }
         updateGameState(updatedScore)
+    }
 
-
+    fun notAddHighlightWords(){
+        val updatedScore = _uiState.value.score.plus(10)
+        _uiState.update { currentState ->
+            currentState.copy(
+                highlightNum = currentState.highlightNum.inc(),
+            )
+        }
+        updateGameState(updatedScore)
     }
 
     fun checkUserGuess() {
         if (userGuess.equals(currentWord, ignoreCase = true)) {
-            val updatedScore = _uiState.value.score.plus(10)
+//            val updatedScore = _uiState.value.score.plus(10)
             //여기 추가?
             if (checkOver7(currentWord)) {
+                prevWord = currentWord
+                prevShuffle = uiState.value.currentScrambledWord
+
                 _uiState.update { currentState ->
                     currentState.copy(
                         isMoreThan7 = true,
@@ -124,17 +138,19 @@ class GameViewModel : ViewModel() {
 //                        score = updatedScore
                     )
                 }
-
-//                if()
+                Log.d("셔플전 아닌 isMoreThan7", uiState.value.isMoreThan7.toString())
 
             } else {
+                val updatedScore = _uiState.value.score.plus(10)
+
                 _uiState.update { currentState ->
                     currentState.copy(
                         isMoreThan7 = false, //
                     )
                 }
+                updateGameState(updatedScore)
             }
-            updateGameState(updatedScore)
+//            updateGameState(updatedScore)
 
         } else {
             _uiState.update { currentState ->

@@ -25,6 +25,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,9 +46,6 @@ fun GamePage(
     checkScore: () -> Unit,
 ) {
     val gameUiState by gameViewModel.uiState.collectAsState()
-
-    //아래 추가
-    val openHighlightDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -100,27 +98,41 @@ fun GamePage(
 
         if (gameUiState.isMoreThan7) {
 
-            when {
-                openHighlightDialog.value -> {
-                    HighlightDialog(
-                        onDismissRequest = { openHighlightDialog.value = false },
-//                        onDismissRequest = { },
-                        onConfirmation = {
-                            openHighlightDialog.value = false
+            //아래 추가
+            val openHighlightDialog = remember { mutableStateOf(true) }
 
+            HighlightDialog(
+                onDismissRequest = { openHighlightDialog.value = false },
+                onConfirmation = {
+                    openHighlightDialog.value = false
+                    gameViewModel.addHighlightWords()
+                    Log.d("언제되는거지?", "${gameViewModel.highlightWithShuffled.size}")
+                    Log.d("${gameViewModel.highlightWithShuffled}", "언제되는거지...")
+                },
+//                gameViewModel,
+                openHighlightDialog = openHighlightDialog
+            )
+//            //아래 추가
+//            val openHighlightDialog = remember { mutableStateOf(false) }
 
-                            gameViewModel.addHighlightWords()
-                            Log.d("언제되는거지?", "${gameViewModel.highlightWithShuffled}")
-                            Log.d("${gameViewModel.highlightWithShuffled}", "언제되는거지...")
-                        },
-                        dialogTitle = stringResource(id = R.string.highlight_title),
-                        dialogText = stringResource(id = R.string.highlight_content)
-
-                    )
-                }
-            }
+//            if (openHighlightDialog.value) {
+//                HighlightDialog(
+//                    onDismissRequest = { openHighlightDialog.value = false },
+//                    onConfirmation = {
+//                        openHighlightDialog.value = false
+//
+//                        gameViewModel.addHighlightWords()
+//                        Log.d("언제되는거지?", "${gameViewModel.highlightWithShuffled}")
+//                        Log.d("${gameViewModel.highlightWithShuffled}", "언제되는거지...")
+//                    },
+//                    dialogTitle = stringResource(id = R.string.highlight_title),
+//                    dialogText = stringResource(id = R.string.highlight_content)
+//
+//                )
+//                }
         }
     }
+
 }
 
 @Composable
@@ -217,26 +229,60 @@ private fun FinalDialog(
 private fun HighlightDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
-    dialogTitle: String,
-    dialogText: String,
+//    dialogTitle: String,
+//    dialogText: String,
     modifier: Modifier = Modifier,
+//    gameViewModel: GameViewModel = viewModel(),
+    openHighlightDialog: MutableState<Boolean>,
 ) {
-    AlertDialog(
-        onDismissRequest = { onDismissRequest() },
-        title = { Text(text = dialogTitle) },
-        text = { Text(text = dialogText) },
 
-        modifier = modifier,
-        confirmButton = {
-            TextButton(onClick = { onConfirmation() }) {
-                Text(text = stringResource(id = R.string.highlight_confirm))
+//    아래 추가
+//    val openHighlightDialog = remember { mutableStateOf(false) }
+
+    if (openHighlightDialog.value) {
+        AlertDialog(
+            onDismissRequest = { onDismissRequest() },
+            title = { Text(text = stringResource(id = R.string.highlight_title)) },
+            text = { Text(text = stringResource(id = R.string.highlight_content)) },
+            modifier = modifier,
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onConfirmation()
+//                        gameViewModel.addHighlightWords()
+//                        Log.d("언제되는거지?", "${gameViewModel.highlightWithShuffled}")
+//                        Log.d("${gameViewModel.highlightWithShuffled}", "언제되는거지...")
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.highlight_confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { onDismissRequest() }) {
+                    Text(text = stringResource(id = R.string.highlight_dismiss))
+                }
             }
-        },
-        dismissButton = {
-            TextButton(onClick = { onDismissRequest() }) {
-                Text(text = stringResource(id = R.string.highlight_dismiss))
-            }
-        }
-    )
+
+        )
+//                }
+    }
+    //여기 아래로 원본
+//    AlertDialog(
+//        onDismissRequest = { onDismissRequest() },
+//        title = { Text(text = dialogTitle) },
+//        text = { Text(text = dialogText) },
+//
+//        modifier = modifier,
+//        confirmButton = {
+//            TextButton(onClick = { onConfirmation() }) {
+//                Text(text = stringResource(id = R.string.highlight_confirm))
+//            }
+//        },
+//        dismissButton = {
+//            TextButton(onClick = { onDismissRequest() }) {
+//                Text(text = stringResource(id = R.string.highlight_dismiss))
+//            }
+//        }
+//    )
 
 }
