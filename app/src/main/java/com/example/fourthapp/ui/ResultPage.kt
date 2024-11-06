@@ -107,7 +107,7 @@ fun ResultPage(
                                 text = highlightIterator.next(),
                                 style = typography.displayMedium
                             )
-                            if(highlightIterator.hasNext()){
+                            if (highlightIterator.hasNext()) {
                                 Text(
                                     text = "\n"
                                 )
@@ -116,19 +116,20 @@ fun ResultPage(
                     }
                 }
             }
-        }
-        Column(
-            modifier = Modifier.padding(vertical = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    gameViewModel.resetGame()
-                    returnToGame()
-                }
+            //여기로 이동
+            Column(
+                modifier = Modifier.padding(vertical = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text(text = "Return to Game")
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        gameViewModel.resetGame()
+                        returnToGame()
+                    }
+                ) {
+                    Text(text = "Return to Game")
+                }
             }
         }
     }
