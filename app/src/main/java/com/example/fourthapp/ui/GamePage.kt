@@ -104,12 +104,12 @@ fun GamePage(
                 onDismissRequest = {
                     openHighlightDialog.value = false
                     gameViewModel.notAddHighlightWords()
-                    Log.d("셔플전 아니고 안더하기ㅓ", "${gameViewModel.highlightWithShuffled.size}")
+                    Log.d("셔플전 아니고 안더하기ㅓ", "${gameViewModel.highlightWords.size}")
                 },
                 onConfirmation = {
                     openHighlightDialog.value = false
                     gameViewModel.addHighlightWords()
-                    Log.d("셔플전 아니고 더하기", "${gameViewModel.highlightWithShuffled.size}")
+                    Log.d("셔플전 아니고 더하기", "${gameViewModel.highlightWords.size}")
                 },
                 openHighlightDialog = openHighlightDialog
             )

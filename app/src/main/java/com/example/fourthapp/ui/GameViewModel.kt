@@ -32,8 +32,8 @@ class GameViewModel : ViewModel() {
     private var _highlightWords: MutableSet<String> = mutableSetOf()
     val highlightWords: Set<String> = _highlightWords
 
-    private var _highlightWithShuffled: MutableSet<String> = mutableSetOf()
-    val highlightWithShuffled: Set<String> = _highlightWithShuffled
+//    private var _highlightWithShuffled: MutableSet<String> = mutableSetOf()
+//    val highlightWithShuffled: Set<String> = _highlightWithShuffled
 
     private var _highlightShuffled: MutableSet<String> = mutableSetOf()
     val highlightShuffled: Set<String> = _highlightShuffled
@@ -99,7 +99,7 @@ class GameViewModel : ViewModel() {
     }
 
     fun addHighlightWords() {
-        _highlightWithShuffled.add("$prevShuffle to $prevWord")
+//        _highlightWithShuffled.add("$prevShuffle to $prevWord")
         _highlightWords.add(prevWord)
         _highlightShuffled.add(prevShuffle)
 
@@ -169,12 +169,15 @@ class GameViewModel : ViewModel() {
 
     fun resetGame() {
         usedWords.clear()
+        _highlightWords.clear()
+        _highlightShuffled.clear()
+//        _highlightWithShuffled.clear()
         _uiState.value = GameUiState(currentScrambledWord = pickRandomWordAndShuffle())
     }
 
     //여기 추가
     private fun checkOver7(currentWord: String): Boolean {
-        if (currentWord.length >= 3) {
+        if (currentWord.length >= 7) {
             return true
         } else {
             return false
