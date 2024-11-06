@@ -90,6 +90,7 @@ fun ResultPage(
                             style = typography.titleLarge
                         )
 
+                        //여기 추가
                         val highlightIterator = gameViewModel.highlightWords.iterator()
                         val shuffledIterator = gameViewModel.highlightShuffled.iterator()
 
@@ -106,17 +107,15 @@ fun ResultPage(
                                 text = highlightIterator.next(),
                                 style = typography.displayMedium
                             )
-                            Text(
-                                text = "\n"
-                            )
+                            if(highlightIterator.hasNext()){
+                                Text(
+                                    text = "\n"
+                                )
+                            }
                         }
-
-
                     }
                 }
-
             }
-
         }
         Column(
             modifier = Modifier.padding(vertical = 32.dp),
@@ -131,7 +130,6 @@ fun ResultPage(
             ) {
                 Text(text = "Return to Game")
             }
-
         }
     }
 }
