@@ -52,3 +52,7 @@ class MainActivity : ComponentActivity() {
 //TODO 질문 4 - [gameUiState] state에는 상태를 넣고, viewmodel에 데이터를 넣는거라고 이해...근데 state에 score이 있는데? 차이...
 
 //TODO 질문 5 - [resultPage] set으로 저장한 것들 돌리려고 iterator 사용... 다른 방법은?
+
+//TODO 질문 6 - 제출 양식... 뭐뭐 올리는거지
+
+//TODO 질문 7 - 결과창 스크롤 안돼도 되는건가
