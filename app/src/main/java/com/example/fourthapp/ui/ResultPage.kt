@@ -91,7 +91,6 @@ fun ResultPage(
                         )
 
                         //여기 추가
-                        //TODO 질문 5 - [resultPage] set으로 저장한 것들 돌리려고 iterator 사용... 다른 방법은?
                         val highlightIterator = gameViewModel.highlightWords.iterator()
                         val shuffledIterator = gameViewModel.highlightShuffled.iterator()
 

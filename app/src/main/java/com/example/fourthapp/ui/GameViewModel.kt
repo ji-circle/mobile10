@@ -113,7 +113,6 @@ class GameViewModel : ViewModel() {
         if (userGuess.equals(currentWord, ignoreCase = true)) {
             //여기 추가
             if (checkOver7(currentWord)) {
-                //TODO 질문 2-이전 단어들을 따로 저장하는 게 아니라, 넘어가기 전에 저장하고 넘어가고 싶음
                 prevWord = currentWord
                 prevShuffle = uiState.value.currentScrambledWord
 
