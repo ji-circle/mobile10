@@ -43,6 +43,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//TODO wordsData는 안쓰는건가???
-//TODO state에는 상태를 넣는데, viewmodel에 데이터를 넣는 거랑 뭐가 다른거지...? state에 score이 있는데??
-//TODO gameviewmodel에서... 질문
+//TODO 질문 1 - [gamePage] 공식문서에서는 여기서 mutableStateOf(false) 라고 적혀있던데...
+
+//TODO 질문 2 - [viewModel]이전 단어들을 따로 저장하는 게 아니라, 넘어가기 전에 저장하고 넘어가고 싶음
+
+//TODO 질문 3 - [wordsData] 이건 안쓰는건가?
+
+//TODO 질문 4 - [gameUiState] state에는 상태를 넣고, viewmodel에 데이터를 넣는거라고 이해...근데 state에 score이 있는데? 차이...
+
+//TODO 질문 5 - [resultPage] set으로 저장한 것들 돌리려고 iterator 사용... 다른 방법은?

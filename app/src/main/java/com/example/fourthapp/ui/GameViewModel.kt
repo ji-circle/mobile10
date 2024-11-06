@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.update
 
 class GameViewModel : ViewModel() {
     private var _allWords = mutableStateOf<Set<String>>(emptySet())
-
     val allWords: State<Set<String>> = _allWords
 
     private var _uiState = MutableStateFlow(GameUiState())
@@ -31,9 +30,6 @@ class GameViewModel : ViewModel() {
     //여기 추가
     private var _highlightWords: MutableSet<String> = mutableSetOf()
     val highlightWords: Set<String> = _highlightWords
-
-//    private var _highlightWithShuffled: MutableSet<String> = mutableSetOf()
-//    val highlightWithShuffled: Set<String> = _highlightWithShuffled
 
     private var _highlightShuffled: MutableSet<String> = mutableSetOf()
     val highlightShuffled: Set<String> = _highlightShuffled
@@ -64,8 +60,7 @@ class GameViewModel : ViewModel() {
             return pickRandomWordAndShuffle()
         } else {
             usedWords.add(currentWord)
-            Log.d("셔플전", currentWord)
-
+            Log.d("확인 현재단어", currentWord)
             return shuffleCurrentWord(currentWord)
         }
     }
@@ -84,7 +79,6 @@ class GameViewModel : ViewModel() {
                 )
             }
         } else {
-
             _uiState.update { currentState ->
                 currentState.copy(
                     isGuessedWordWrong = false,
@@ -94,25 +88,18 @@ class GameViewModel : ViewModel() {
                     currentWordCount = currentState.currentWordCount.inc()
                 )
             }
-
         }
     }
 
+    //여기 추가
     fun addHighlightWords() {
-//        _highlightWithShuffled.add("$prevShuffle to $prevWord")
         _highlightWords.add(prevWord)
         _highlightShuffled.add(prevShuffle)
 
-        val updatedScore = _uiState.value.score.plus(10)
-        _uiState.update { currentState ->
-            currentState.copy(
-                highlightNum = currentState.highlightNum.inc(),
-            )
-        }
-        updateGameState(updatedScore)
+        updateGameStateOver7()
     }
 
-    fun notAddHighlightWords(){
+    fun updateGameStateOver7() {
         val updatedScore = _uiState.value.score.plus(10)
         _uiState.update { currentState ->
             currentState.copy(
@@ -124,9 +111,9 @@ class GameViewModel : ViewModel() {
 
     fun checkUserGuess() {
         if (userGuess.equals(currentWord, ignoreCase = true)) {
-//            val updatedScore = _uiState.value.score.plus(10)
-            //여기 추가?
+            //여기 추가
             if (checkOver7(currentWord)) {
+                //TODO 질문 2-이전 단어들을 따로 저장하는 게 아니라, 넘어가기 전에 저장하고 넘어가고 싶음
                 prevWord = currentWord
                 prevShuffle = uiState.value.currentScrambledWord
 
@@ -135,27 +122,25 @@ class GameViewModel : ViewModel() {
                         isMoreThan7 = true,
                         isGuessedWordWrong = false,
                         isHighlightExists = true,
-//                        score = updatedScore
                     )
                 }
-                Log.d("셔플전 아닌 isMoreThan7", uiState.value.isMoreThan7.toString())
+                Log.d("확인 isMoreThan7", uiState.value.isMoreThan7.toString())
 
             } else {
                 val updatedScore = _uiState.value.score.plus(10)
 
                 _uiState.update { currentState ->
                     currentState.copy(
-                        isMoreThan7 = false, //
+                        isMoreThan7 = false
                     )
                 }
                 updateGameState(updatedScore)
             }
-//            updateGameState(updatedScore)
 
         } else {
             _uiState.update { currentState ->
                 currentState.copy(
-                    isGuessedWordWrong = true,
+                    isGuessedWordWrong = true
                 )
             }
         }
@@ -171,11 +156,9 @@ class GameViewModel : ViewModel() {
         usedWords.clear()
         _highlightWords.clear()
         _highlightShuffled.clear()
-//        _highlightWithShuffled.clear()
         _uiState.value = GameUiState(currentScrambledWord = pickRandomWordAndShuffle())
     }
 
-    //여기 추가
     private fun checkOver7(currentWord: String): Boolean {
         if (currentWord.length >= 7) {
             return true

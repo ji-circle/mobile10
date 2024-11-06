@@ -50,7 +50,7 @@ fun GamePage(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(title = { Text(text = "Unscrambling Game") })
+            TopAppBar(title = { Text(text = stringResource(R.string.topappbar)) })
         }
     ) { innerPadding ->
         Column(
@@ -61,7 +61,6 @@ fun GamePage(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             GameLayout(
                 onUserGuessChanged = { gameViewModel.updateUserGuess(it) },
                 isGuessWrong = gameUiState.isGuessedWordWrong,
@@ -71,7 +70,6 @@ fun GamePage(
                 currentScrambledWord = gameUiState.currentScrambledWord,
                 modifier = Modifier.fillMaxWidth()
             )
-
             Column(
                 modifier = Modifier.padding(vertical = 32.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -80,15 +78,14 @@ fun GamePage(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { gameViewModel.checkUserGuess() }
                 ) {
-                    Text(text = "Submit")
+                    Text(text = stringResource(R.string.submit))
                 }
                 OutlinedButton(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { gameViewModel.skipWord() }
                 ) {
-                    Text(text = "Skip")
+                    Text(text = stringResource(R.string.skip))
                 }
-
             }
         }
         if (gameUiState.isGameOver) {
@@ -96,20 +93,20 @@ fun GamePage(
         }
 
         if (gameUiState.isMoreThan7) {
-
             //아래 추가
+            //TODO 질문 1 - [gamePage] 공식문서에서는 여기서 mutableStateOf(false) 라고 적혀있던데...
             val openHighlightDialog = remember { mutableStateOf(true) }
 
             HighlightDialog(
                 onDismissRequest = {
                     openHighlightDialog.value = false
-                    gameViewModel.notAddHighlightWords()
-                    Log.d("셔플전 아니고 안더하기ㅓ", "${gameViewModel.highlightWords.size}")
+                    gameViewModel.updateGameStateOver7()
+                    Log.d("확인 하이라이트에 추가 X, 개수", "${gameViewModel.highlightWords.size}")
                 },
                 onConfirmation = {
                     openHighlightDialog.value = false
                     gameViewModel.addHighlightWords()
-                    Log.d("셔플전 아니고 더하기", "${gameViewModel.highlightWords.size}")
+                    Log.d("확인 하이라이트에 추가, 개수", "${gameViewModel.highlightWords.size}")
                 },
                 openHighlightDialog = openHighlightDialog
             )
@@ -154,7 +151,7 @@ fun GameLayout(
                 style = typography.displayMedium
             )
             Text(
-                text = "Unscramble the above vocabulary!",
+                text = stringResource(R.string.unscramble_description),
                 style = typography.titleMedium
             )
             OutlinedTextField(

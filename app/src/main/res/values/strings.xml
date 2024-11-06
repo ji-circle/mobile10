@@ -5,6 +5,15 @@
     <string name="your_score_is">Your score is ...</string>
     <string name="game_result">Game Result</string>
 
+    <string name="topappbar">Unscrambling Game</string>
+    <string name="submit">Submit</string>
+    <string name="skip">Skip</string>
+
+    <string name="unscramble_description">Unscramble the above vocabulary!</string>
+
+    <string name="to"> to </string>
+    <string name="return_button">Return to Game</string>
+
     <string name="current_score">%d/10</string>
 
     <string name="check_score">Check!</string>

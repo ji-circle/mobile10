@@ -91,6 +91,7 @@ fun ResultPage(
                         )
 
                         //여기 추가
+                        //TODO 질문 5 - [resultPage] set으로 저장한 것들 돌리려고 iterator 사용... 다른 방법은?
                         val highlightIterator = gameViewModel.highlightWords.iterator()
                         val shuffledIterator = gameViewModel.highlightShuffled.iterator()
 
@@ -100,7 +101,7 @@ fun ResultPage(
                                 style = typography.displayMedium
                             )
                             Text(
-                                text = " to ",
+                                text = stringResource(R.string.to),
                                 style = typography.displaySmall
                             )
                             Text(
@@ -116,7 +117,6 @@ fun ResultPage(
                     }
                 }
             }
-            //여기로 이동
             Column(
                 modifier = Modifier.padding(vertical = 32.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -128,7 +128,7 @@ fun ResultPage(
                         returnToGame()
                     }
                 ) {
-                    Text(text = "Return to Game")
+                    Text(text = stringResource(R.string.return_button))
                 }
             }
         }
