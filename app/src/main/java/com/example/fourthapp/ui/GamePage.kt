@@ -94,7 +94,7 @@ fun GamePage(
 
         if (gameUiState.isMoreThan7) {
             //아래 추가
-            //TODO 질문 1 - [gamePage] 공식문서에서는 여기서 mutableStateOf(false) 라고 적혀있던데...
+            //TODO 질문 1 - [gamePage] 공식문서에서는 여기서 mutableStateOf(false) 라고 적혀있던데... -> 뷰모델로
             val openHighlightDialog = remember { mutableStateOf(true) }
 
             HighlightDialog(
