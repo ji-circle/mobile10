@@ -25,11 +25,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -95,20 +92,15 @@ fun GamePage(
         if (gameUiState.isMoreThan7) {
             //아래 추가
             //TODO 질문 1 - [gamePage] 공식문서에서는 여기서 mutableStateOf(false) 라고 적혀있던데... -> 뷰모델로
-            val openHighlightDialog = remember { mutableStateOf(true) }
-
             HighlightDialog(
                 onDismissRequest = {
-                    openHighlightDialog.value = false
                     gameViewModel.updateGameStateOver7()
                     Log.d("확인 하이라이트에 추가 X, 개수", "${gameViewModel.highlightWords.size}")
                 },
                 onConfirmation = {
-                    openHighlightDialog.value = false
                     gameViewModel.addHighlightWords()
                     Log.d("확인 하이라이트에 추가, 개수", "${gameViewModel.highlightWords.size}")
                 },
-                openHighlightDialog = openHighlightDialog
             )
         }
     }
@@ -183,7 +175,6 @@ fun GameLayout(
             )
         }
     }
-
 }
 
 @Composable
@@ -210,29 +201,27 @@ private fun HighlightDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     modifier: Modifier = Modifier,
-    openHighlightDialog: MutableState<Boolean>,
 ) {
 
-    if (openHighlightDialog.value) {
-        AlertDialog(
-            onDismissRequest = { onDismissRequest() },
-            title = { Text(text = stringResource(id = R.string.highlight_title)) },
-            text = { Text(text = stringResource(id = R.string.highlight_content)) },
-            modifier = modifier,
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        onConfirmation()
-                    }
-                ) {
-                    Text(text = stringResource(id = R.string.highlight_confirm))
+    AlertDialog(
+        onDismissRequest = { onDismissRequest()
+                           },
+        title = { Text(text = stringResource(id = R.string.highlight_title)) },
+        text = { Text(text = stringResource(id = R.string.highlight_content)) },
+        modifier = modifier,
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onConfirmation()
                 }
-            },
-            dismissButton = {
-                TextButton(onClick = { onDismissRequest() }) {
-                    Text(text = stringResource(id = R.string.highlight_dismiss))
-                }
+            ) {
+                Text(text = stringResource(id = R.string.highlight_confirm))
             }
-        )
-    }
+        },
+        dismissButton = {
+            TextButton(onClick = { onDismissRequest() }) {
+                Text(text = stringResource(id = R.string.highlight_dismiss))
+            }
+        }
+    )
 }
